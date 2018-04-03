@@ -132,7 +132,7 @@ public ResponseEntity<Iterable<Poll>> getAllPolls() {
 
 ### Part 3.1.2 - Testing via Postman
 
-* Ensure that the `start-class` tag in your `pom.xml` encapsulates `io.zipcoder.springdemo.QuickPollApplication`
+* Ensure that the `start-class` tag in your `pom.xml` encapsulates `io.zipcoder.tc_spring_poll_application.QuickPollApplication`
 * Open a command line and navigate to the project's root directory and run this command:
 	* `mvn spring-boot:run`
 * Launch the [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop?hl=en) app and enter the URI `http://localhost:8080/polls` and hit Send.
