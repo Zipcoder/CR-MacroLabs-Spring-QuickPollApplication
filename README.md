@@ -150,7 +150,7 @@ public ResponseEntity<Iterable<Poll>> getAllPolls() {
 @RequestMapping(value="/polls", method=RequestMethod.POST)
 public ResponseEntity<?> createPoll(@RequestBody Poll poll) {
         poll = pollRepository.save(poll);
-        return new ResponseEntity<>(null, HttpStatus.CREATED);
+        return new ResponseEntity<Poll>(null, HttpStatus.CREATED);
 }
 ```
 
