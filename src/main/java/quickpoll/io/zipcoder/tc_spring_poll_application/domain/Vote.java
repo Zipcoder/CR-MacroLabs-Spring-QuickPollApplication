@@ -1,4 +1,4 @@
-package io.zipcoder.tc_spring_poll_application.domain;
+package quickpoll.io.zipcoder.tc_spring_poll_application.domain;
 
 import javax.persistence.*;
 
