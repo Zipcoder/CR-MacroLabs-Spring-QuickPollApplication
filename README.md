@@ -312,7 +312,7 @@ public interface VoteRepository extends CrudRepository<Vote, Long> {
             "FROM Option o, Vote v " +
             "WHERE o.POLL_ID = ?1 " +
             "AND v.OPTION_ID = o.OPTION_ID", nativeQuery = true)
-    public Iterable<Vote> findVotesByPoll(Long pollId);
+    Iterable<Vote> findVotesByPoll(Long pollId);
 }
 ```
 
@@ -338,7 +338,7 @@ public Iterable<Vote> getAllVotes() {
 ```java
 @RequestMapping(value="/polls/{pollId}/votes", method=RequestMethod.GET)
 public Iterable<Vote> getVote(@PathVariable Long pollId) {
-	return voteRepository.findById(pollId);
+	return voteRepository.findVotesByPoll(pollId);
 }
 ```
 
