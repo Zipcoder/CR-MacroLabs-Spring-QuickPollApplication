@@ -425,6 +425,7 @@ public class ComputeResultController {
         //TODO: Implement algorithm to count votes
         return new ResponseEntity<VoteResult>(voteResult, HttpStatus.OK);
     }
+}    
 ```
 
 
