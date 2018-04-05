@@ -11,16 +11,16 @@ public class Option {
     @Id // specifies primary key of entity
     @GeneratedValue // configures the way of increment of the specified column (field)
     @Column(name = "OPTION_ID")// specifies mapped column for a persisitence property. Without this annotation the framework assumes the field's variable-name is the persistent property
-    private long id;
+    private Long id;
 
     @Column(name = "OPTION_VALUE")// specifies mapped column for persistence value
     private String value;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
