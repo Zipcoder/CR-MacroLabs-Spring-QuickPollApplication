@@ -21,8 +21,11 @@ public class VoteController {
         vote = voteRepository.save(vote);
         // Set the headers for the newly created resource
         HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.setLocation(ServletUriComponentsBuilder.
-                fromCurrentRequest().path("/{id}").buildAndExpand(vote.getId()).toUri());
+        responseHeaders.setLocation(ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(vote.getId())
+                .toUri());
         return new ResponseEntity<>(responseHeaders, HttpStatus.CREATED);
     }
 
@@ -33,7 +36,7 @@ public class VoteController {
 
     @RequestMapping(value="/polls/{pollId}/votes", method=RequestMethod.GET)
     public Iterable<Vote> getVote(@PathVariable Long pollId) {
-        return voteRepository.findById(pollId);
+        return voteRepository.findVotesByPoll(pollId);
     }
 
 }

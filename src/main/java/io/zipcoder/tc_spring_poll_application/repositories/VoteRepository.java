@@ -6,7 +6,13 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface VoteRepository extends CrudRepository<Vote, Long> {
 
-        @Query(value = "SELECT v.* " +
+
+//    Iterable<Vote> findById(Long aLong);
+//
+//    Iterable<Vote> findAll();
+
+
+    @Query(value = "SELECT v.* " +
                 "FROM Option o, Vote v " +
                 "WHERE o.POLL_ID = ?1 " +
                 "AND v.OPTION_ID = o.OPTION_ID", nativeQuery = true)

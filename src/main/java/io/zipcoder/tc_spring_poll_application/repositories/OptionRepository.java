@@ -5,4 +5,9 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface OptionRepository extends CrudRepository<Option, Long>{
 
+
+    Iterable<Option> findById(Long aLong);
+
+    Iterable<Option> findAll();
+
 }
