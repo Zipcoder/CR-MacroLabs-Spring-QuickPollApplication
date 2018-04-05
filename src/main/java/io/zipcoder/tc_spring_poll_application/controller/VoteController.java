@@ -9,12 +9,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 
 @RestController
 public class VoteController {
     @Inject
     private VoteRepository voteRepository;
 
+    @Valid
     @RequestMapping(value = "/polls/{pollId}/votes", method = RequestMethod.POST)
     public ResponseEntity<?> createVote(@PathVariable Long pollId, @RequestBody Vote
             vote) {
