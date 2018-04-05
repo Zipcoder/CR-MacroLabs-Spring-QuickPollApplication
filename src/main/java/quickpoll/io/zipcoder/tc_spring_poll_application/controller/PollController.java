@@ -26,9 +26,9 @@ public class PollController {
    }
 
 
-   @Valid
+
    @RequestMapping(value = "/polls", method = RequestMethod.POST)
-   public ResponseEntity<?> createPoll(@RequestBody Poll poll) {
+   public ResponseEntity<?> createPoll(@Valid @RequestBody Poll poll) {
        URI newPollUri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(poll.getId()).toUri();
        poll = pollRepository.save(poll);
        HttpHeaders header = new HttpHeaders();
@@ -43,9 +43,9 @@ public class PollController {
        return new ResponseEntity<>(p, HttpStatus.OK);
    }
 
-   @Valid
+
    @RequestMapping(value="/polls/{pollId}", method = RequestMethod.PUT)
-   public ResponseEntity<?> updatePoll(@RequestBody Poll poll, @PathVariable Long pollId){
+   public ResponseEntity<?> updatePoll(@Valid @RequestBody Poll poll, @PathVariable Long pollId){
        verifyPoll(pollId);
        Poll p = pollRepository.save(poll);
        return new ResponseEntity<>(HttpStatus.OK);
