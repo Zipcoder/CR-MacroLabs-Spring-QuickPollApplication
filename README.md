@@ -491,7 +491,7 @@ public ResponseEntity<?> handleResourceNotFoundException(ResourceNotFoundExcepti
 
 
 
-## Part 5.4 - Validating domain entities
+## Part 5.5 - Validating domain entities
 
 Now it's time to make sure that all objects persisted to the database actually contain valid values. Use the `org.hibernate.validator.constraints.NotEmpty` and `javax.validation.constraints.Size` and `javax.validation.Valid` annotations for validation.
 
@@ -500,7 +500,7 @@ Now it's time to make sure that all objects persisted to the database actually c
   - `question` should be `@NotEmpty`
 - To enforce these validations, add `@Valid` annotations to Poll objects in `RequestMapping`-annotated controller methods (there should be 2)
 
-## Part 5.5 - Customizing validation errors
+## Part 5.6 - Customizing validation errors
 
 In order to customize validation errors we'll need a class for error information. Create a `ValidationError` class in `io.zipcoder.tc_spring_poll_application.dto.error` with the following fields and appropriate getters and setters:
 
@@ -510,7 +510,7 @@ In order to customize validation errors we'll need a class for error information
 We also need a new field in the `ErrorDetail` class to hold errors. There may be multiple validation errors associated with a request, sometimes more than one of the same type, so this field will be a collection, specifically a `Map<String, List<ValidationError>> errors` field.
 
 
-## Part 5.6 - Create a validation error handler
+## Part 5.7 - Create a validation error handler
 
 - add below handler to `RestExceptionHandler`
 
@@ -544,7 +544,7 @@ for(FieldError fe : fieldErrors) {
 }
 ```
 
-## Part 5.7 - Externalize strings in a messages.properties file
+## Part 5.8 - Externalize strings in a messages.properties file
 
 Commonly used strings in your Java program can be removed from the source code and placed in a separate file. This is called externalizing, and is useful for allowing changes to text displayed without impacting actual program logic. One example of where this is done is in internationalization, the practice of providing multilingual support in an application, allowing users to use an application in their native language.
 
