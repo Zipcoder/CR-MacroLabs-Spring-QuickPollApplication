@@ -26,7 +26,7 @@ public class ComputeResultController {
         VoteResult voteResult = new VoteResult();
         Iterable<Vote> allVotes = voteRepository.findVotesByPoll(pollId);
         countVotes(voteResult, allVotes);
-        return new ResponseEntity<VoteResult>(voteResult, HttpStatus.OK);
+        return new ResponseEntity<>(voteResult, HttpStatus.OK);
     }
 
     private void countVotes(VoteResult voteResult, Iterable<Vote> allVotes) {
