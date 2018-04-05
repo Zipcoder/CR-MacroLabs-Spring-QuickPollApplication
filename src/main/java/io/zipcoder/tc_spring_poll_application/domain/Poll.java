@@ -1,4 +1,4 @@
-package io.zipcoder.tc_spring_poll_application.io.zipcode.tc_spring_poll_application.domain;
+package io.zipcoder.tc_spring_poll_application.domain;
 
 import javax.persistence.*;
 import java.util.Set;
