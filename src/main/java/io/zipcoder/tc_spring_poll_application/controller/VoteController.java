@@ -26,8 +26,8 @@ public class VoteController {
         return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
     }
 
-    @RequestMapping(value="/polls/{pollId}/votes", method=RequestMethod.GET)
-    public Iterable<Vote> getAllVotes() {
+    @RequestMapping(value="/polls/votes", method=RequestMethod.GET)
+    public Iterable<Vote> getAllVotes(@PathVariable("pollId") String pollId) {
         return voteRepository.findAll();
     }
 

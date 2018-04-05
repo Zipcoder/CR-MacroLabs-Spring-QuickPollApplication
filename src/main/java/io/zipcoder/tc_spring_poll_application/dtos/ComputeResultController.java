@@ -13,6 +13,7 @@ import javax.inject.Inject;
 
 @RestController
 public class ComputeResultController {
+
     @Inject
     private VoteRepository voteRepository;
 
