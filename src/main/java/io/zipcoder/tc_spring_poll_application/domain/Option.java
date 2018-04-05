@@ -7,13 +7,14 @@ import javax.persistence.Id;
 
 @Entity
 public class Option {
+
     @Id
     @GeneratedValue
     @Column(name = "OPTION_ID")
-    Long id;
+    private Long id;
 
     @Column(name = "OPTION_VALUE")
-    String value;
+    private String value;
 
     public Long getId() {
         return id;
@@ -29,5 +30,10 @@ public class Option {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    @Override
+    public String toString() {
+        return getId() + "," + getValue();
     }
 }

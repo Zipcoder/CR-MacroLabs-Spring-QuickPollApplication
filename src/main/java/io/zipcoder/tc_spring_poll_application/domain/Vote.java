@@ -4,14 +4,15 @@ import javax.persistence.*;
 
 @Entity
 public class Vote {
+
     @Id
     @GeneratedValue
     @Column(name = "VOTE_ID")
-    Long id;
+    private Long id;
 
-    @ManyToMany
+    @ManyToOne
     @JoinColumn(name = "OPTION_ID")
-    Option option;
+    private Option option;
 
     public Long getId() {
         return id;
@@ -27,5 +28,10 @@ public class Vote {
 
     public void setOption(Option option) {
         this.option = option;
+    }
+
+    @Override
+    public String toString() {
+        return getId() + ", " + getOption();
     }
 }
