@@ -17,7 +17,8 @@ public class Vote {
     @Column(name="VOTE_ID")
     private Long id;
 
-    @Column(name="OPTION_ID")
+    @ManyToOne
+    @JoinColumn(name="OPTION_ID")
     private Option option;
 
     public Long getId() {
