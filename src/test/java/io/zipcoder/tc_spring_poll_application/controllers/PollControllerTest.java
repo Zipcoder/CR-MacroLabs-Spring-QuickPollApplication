@@ -10,12 +10,19 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.Assert;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -36,6 +43,7 @@ public class PollControllerTest {
     private PollRepository pollRepo;
 
     private List<Poll> polls = new ArrayList<>();
+    private MockMvc mockMvc;
 
     @Before
     public void setup() {
@@ -47,7 +55,6 @@ public class PollControllerTest {
         //POST create poll
         when(pollRepo.save(any(Poll.class))).thenAnswer(inv -> inv.getArgument(0));
 
-//        would be nice...
 //        when(pollRepo::save)
 //                .onSuccess(HttpStatus.CREATED)
 //                .onFail(HttpStatus.BAD_REQUEST);
@@ -82,5 +89,17 @@ public class PollControllerTest {
 
         verify(pollRepo).save(any(Poll.class));
         assertEquals(expected.getId(), actual.getId());
+    }
+
+    @Test
+    public void createPollReturnsLocation() {
+        Poll p = new Poll();
+        p.setId(1L);
+
+        Pattern expected = Pattern.compile("/polls/1");
+        String actual = pollCtrl.createPoll(p).getHeaders().getLocation().toString();
+
+        verify(pollRepo).save(any(Poll.class));
+        assertTrue(expected.matcher(actual).find());
     }
 }

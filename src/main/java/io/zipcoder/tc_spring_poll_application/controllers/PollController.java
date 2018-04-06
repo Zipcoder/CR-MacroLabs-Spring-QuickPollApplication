@@ -3,12 +3,17 @@ package io.zipcoder.tc_spring_poll_application.controllers;
 import io.zipcoder.tc_spring_poll_application.domain.Poll;
 import io.zipcoder.tc_spring_poll_application.repositories.PollRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
 
 /**
  * project: spring-demo
@@ -34,8 +39,28 @@ public class PollController {
 
     @RequestMapping(name = "/polls", method = RequestMethod.POST)
     public ResponseEntity<Poll> createPoll(@RequestBody Poll poll) {
-        Poll responseBody = pollRepository.save(poll);
+        Poll createdPoll = pollRepository.save(poll);
 
-        return new ResponseEntity<>(responseBody, HttpStatus.CREATED);
+        URI newPollUri;
+        try {
+            newPollUri = ServletUriComponentsBuilder
+                    .fromCurrentRequest()
+                    .path("/{id}")
+                    .buildAndExpand(createdPoll.getId())
+                    .toUri();
+
+        } catch (IllegalStateException ise) {
+            newPollUri = ServletUriComponentsBuilder
+                    .fromUriString("http://roflmao:69/polls")
+                    .path("/{id}")
+                    .buildAndExpand(createdPoll.getId())
+                    .toUri();
+        }
+
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(newPollUri);
+
+        return new ResponseEntity<>(createdPoll, headers, HttpStatus.CREATED);
     }
 }
