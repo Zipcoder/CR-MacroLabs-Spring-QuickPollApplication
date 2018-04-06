@@ -6,27 +6,20 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.Assert;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.*;
 
 /**
  * project: spring-demo
@@ -50,6 +43,9 @@ public class PollControllerTest {
 
         // GET all polls
         when(pollRepo.findAll()).thenReturn(polls);
+
+        // GET one poll
+        when(pollRepo.findById(anyLong())).thenReturn(Optional.of(new Poll()));
 
         //POST create poll
         when(pollRepo.save(any(Poll.class))).thenAnswer(inv -> inv.getArgument(0));
@@ -100,5 +96,14 @@ public class PollControllerTest {
 
         verify(pollRepo).save(any(Poll.class));
         assertTrue(expected.matcher(actual).find());
+    }
+
+    @Test
+    public void getPollReturnsPoll() {
+        HttpStatus expected = HttpStatus.OK;
+        HttpStatus actual = pollCtrl.getPoll(anyLong()).getStatusCode();
+
+        verify(pollRepo).findById(anyLong());
+        assertEquals(expected, actual);
     }
 }
