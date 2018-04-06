@@ -2,6 +2,7 @@ package io.zipcoder.tc_spring_poll_application.controller;
 
 import io.zipcoder.tc_spring_poll_application.domain.Vote;
 import io.zipcoder.tc_spring_poll_application.repositories.VoteRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +13,7 @@ import javax.inject.Inject;
 
 @RestController
 public class VoteController {
-    @Inject
+    @Autowired
     private VoteRepository voteRepository;
 
     @RequestMapping(value = "/polls/{pollId}/votes", method = RequestMethod.POST)
