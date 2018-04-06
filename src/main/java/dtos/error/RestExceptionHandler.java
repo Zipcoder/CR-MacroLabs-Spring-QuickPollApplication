@@ -38,6 +38,15 @@ public class RestExceptionHandler {
     public ResponseEntity<?> handleValidationError(  MethodArgumentNotValidException manve, HttpServletRequest request){
         ErrorDetail errorDetail = new ErrorDetail();
         List<FieldError> fieldErrors =  manve.getBindingResult().getFieldErrors();
+        errorDetail.setTimeStamp(new Date().getTime());
+        errorDetail.setStatus(HttpStatus.BAD_REQUEST.value());
+        String requestPath = (String) request.getAttribute("javax.servlet.error. request_uri");
+        if(requestPath == null) {
+            requestPath = request.getRequestURI();
+        }
+        errorDetail.setTitle("Validation Failed");
+        errorDetail.setDetail("Input validation failed");
+        errorDetail.setDeveloperMessage(manve.getClass().getName());
         for(FieldError fe : fieldErrors) {
 
             List<ValidationError> validationErrorList = errorDetail.getErrors().get(fe.getField());
@@ -50,15 +59,6 @@ public class RestExceptionHandler {
             validationError.setMessage(messageSource.getMessage(fe,null));
             validationErrorList.add(validationError);
         }
-        errorDetail.setTimeStamp(new Date().getTime());
-        errorDetail.setStatus(HttpStatus.BAD_REQUEST.value());
-        String requestPath = (String) request.getAttribute("javax.servlet.error. request_uri");
-        if(requestPath == null) {
-            requestPath = request.getRequestURI();
-        }
-        errorDetail.setTitle("Validation Failed");
-        errorDetail.setDetail("Input validation failed");
-        errorDetail.setDeveloperMessage(manve.getClass().getName());
 
         return new ResponseEntity<>(errorDetail, HttpStatus.BAD_REQUEST);
     }

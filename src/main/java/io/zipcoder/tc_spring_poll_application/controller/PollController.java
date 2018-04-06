@@ -3,6 +3,7 @@ package io.zipcoder.tc_spring_poll_application.controller;
 import io.zipcoder.tc_spring_poll_application.domain.Poll;
 import io.zipcoder.tc_spring_poll_application.exception.ResourceNotFoundException;
 import io.zipcoder.tc_spring_poll_application.repositories.PollRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,11 @@ public class PollController {
 
     @Inject
     private PollRepository pollRepository;
+
+    @Autowired
+    PollController(PollRepository pollRepository){
+        this.pollRepository = pollRepository;
+    }
 
     @RequestMapping(value="/polls", method= RequestMethod.GET)
     public ResponseEntity<Iterable<Poll>> getAllPolls() {

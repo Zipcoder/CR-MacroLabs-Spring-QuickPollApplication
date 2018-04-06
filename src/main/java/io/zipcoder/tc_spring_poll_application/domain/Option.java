@@ -1,13 +1,9 @@
 package io.zipcoder.tc_spring_poll_application.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Option {
-
     @Id
     @GeneratedValue
     @Column(name = "OPTION_ID")
@@ -15,6 +11,9 @@ public class Option {
 
     @Column(name = "OPTION_VALUE")
     private String value;
+
+    @Column(name = "POLL_ID")
+    private Long pollId;
 
     public long getId() {
         return id;
