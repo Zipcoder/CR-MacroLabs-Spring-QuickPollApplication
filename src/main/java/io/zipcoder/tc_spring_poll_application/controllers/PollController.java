@@ -28,7 +28,8 @@ public class PollController {
     @RequestMapping(name = "/polls", method = RequestMethod.GET)
     public ResponseEntity<Iterable<Poll>> getAllPolls() {
         Iterable<Poll> allPolls = pollRepository.findAll();
-        return new ResponseEntity<Iterable<Poll>>(allPolls, HttpStatus.OK);
+        return new ResponseEntity<>(allPolls, HttpStatus.OK);
     }
+
 
 }
