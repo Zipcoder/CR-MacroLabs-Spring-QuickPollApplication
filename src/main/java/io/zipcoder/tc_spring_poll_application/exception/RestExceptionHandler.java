@@ -39,7 +39,7 @@ public class RestExceptionHandler {
             List<ValidationError> validationErrorList = errorDetail.getErrors().get(fe.getField());
             if (validationErrorList == null) {
                 validationErrorList = new ArrayList<ValidationError>();
-                pwerrorDetail.getErrors().put(fe.getField(), validationErrorList);
+                errorDetail.getErrors().put(fe.getField(), validationErrorList);
             }
             ValidationError validationError = new ValidationError();
             validationError.setCode(fe.getCode());
