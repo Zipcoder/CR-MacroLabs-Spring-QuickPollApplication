@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 public class RestExceptionHandler {
+
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<?> handleResourceNotFoundException(ResourceNotFoundException rnfe, HttpServletRequest request) {
         ErrorDetail errorDetail = new ErrorDetail();
@@ -20,4 +21,5 @@ public class RestExceptionHandler {
         errorDetail.setDeveloperMessage(rnfe.getClass().getName());
         return new ResponseEntity<>(errorDetail, null, HttpStatus.NOT_FOUND);
     }
+
 }
