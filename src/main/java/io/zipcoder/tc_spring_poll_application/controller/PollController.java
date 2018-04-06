@@ -1,8 +1,8 @@
 package io.zipcoder.tc_spring_poll_application.controller;
 
 import io.zipcoder.tc_spring_poll_application.Domain.Poll;
+import io.zipcoder.tc_spring_poll_application.exception.ResourceNotFoundException;
 import io.zipcoder.tc_spring_poll_application.repositories.PollRepository;
-import org.springframework.boot.context.config.ResourceNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -61,15 +61,12 @@ public class PollController {
     public ResponseEntity<?> getPoll(@PathVariable Long pollId) {
         verifyPoll(pollId);
         Poll p = pollRepository.findOne(pollId);
-        if (p == null) {
-            throw new ResourceNotFoundException("Poll with id: " + pollId + "does not exist");
-        }
         return new ResponseEntity<>(p, HttpStatus.OK);
     }
 
-    private void verifyPoll(Long pollId) throws ResourceNotFoundException{
-        Poll poll = pollRepository.findOne(pollId);
-        if(poll == null){
+    private void verifyPoll(Long pollId) {
+        Poll p = pollRepository.findOne(pollId);
+        if(p == null){
             throw new ResourceNotFoundException("Poll with id " + pollId + " does not exist");
         }
     }
