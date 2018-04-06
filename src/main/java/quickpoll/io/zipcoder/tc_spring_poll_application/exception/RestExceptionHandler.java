@@ -57,13 +57,12 @@ public class RestExceptionHandler {
         List<FieldError> fieldErrors =  manve.getBindingResult().getFieldErrors();
         //System.out.println(fieldErrors);
         for(FieldError fe : fieldErrors) {
-            List<ValidationError> validationErrorList = errorDetail.getErrors().
-                    get(fe.getField());
+            List<ValidationError> validationErrorList = errorDetail.getErrors().get(fe.getField());
             if(validationErrorList == null) {
+                validationErrorList = new ArrayList<ValidationError>();
+                errorDetail.getErrors().put(fe.getField(), validationErrorList);
             }
-            validationErrorList = new ArrayList<ValidationError>();
-            errorDetail.getErrors().put(fe.getField(),
-                    validationErrorList);
+
             ValidationError validationError = new ValidationError();
             validationError.setCode(fe.getCode());
             validationError.setMessage(messageSource.getMessage(fe, null));
