@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.inject.Inject;
+
 @RestController
 public class VoteController {
 
@@ -29,6 +31,16 @@ public class VoteController {
         responseHeaders.setLocation(ServletUriComponentsBuilder.
                 fromCurrentRequest().path("/{id}").buildAndExpand(vote.getId()).toUri());
         return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value="/polls/votes", method=RequestMethod.GET)
+    public Iterable<Vote> getAllVotes() {
+        return voteRepository.findAll();
+    }
+
+    @RequestMapping(value="/polls/{pollId}/votes", method=RequestMethod.GET)
+    public Iterable<Vote> getVote(@PathVariable Long pollId) {
+        return voteRepository.findVotesByPoll(pollId);
     }
 
 

@@ -1,6 +1,7 @@
 package io.zipcoder.tc_spring_poll_application.controller;
 
 import io.zipcoder.tc_spring_poll_application.domain.Poll;
+import io.zipcoder.tc_spring_poll_application.exception.ResourceNotFoundException;
 import io.zipcoder.tc_spring_poll_application.repositories.PollRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -11,6 +12,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 import java.net.URI;
 
 @RestController
@@ -32,7 +34,7 @@ public class PollController {
     }
 
     @RequestMapping(value="/polls", method=RequestMethod.POST)
-    public ResponseEntity<?> createPoll(@RequestBody Poll poll) {
+    public ResponseEntity<?> createPoll(@Valid @RequestBody Poll poll) {
         poll = pollRepository.save(poll);
 
         HttpHeaders responseHeaders = new HttpHeaders();
@@ -67,7 +69,11 @@ public class PollController {
     }
 
 
-
+    public void verifyPoll(Long pollId){
+        if (pollRepository.findOne(pollId) == null){
+                        throw new ResourceNotFoundException();
+        }
+    }
 
 
 

@@ -16,6 +16,8 @@ public class Option {
     @Column(name="OPTION_VALUE")
     private String value;
 
+    public Option () {}
+
     public Long getId() {
         return id;
     }
