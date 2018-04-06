@@ -47,7 +47,8 @@ public class PollControllerTest {
         // GET one poll
         when(pollRepo.findById(anyLong())).thenReturn(Optional.of(new Poll()));
 
-        //POST create poll
+        // POST create poll
+        // PUT update poll
         when(pollRepo.save(any(Poll.class))).thenAnswer(inv -> inv.getArgument(0));
 
 //        when(pollRepo::save)
@@ -104,6 +105,24 @@ public class PollControllerTest {
         HttpStatus actual = pollCtrl.getPoll(anyLong()).getStatusCode();
 
         verify(pollRepo).findById(anyLong());
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void updatesPoll() {
+        HttpStatus expected = HttpStatus.OK;
+        HttpStatus actual = pollCtrl.updatePoll(mock(Poll.class), anyLong()).getStatusCode();
+
+        verify(pollRepo).save(any(Poll.class));
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void deletePoll() {
+        HttpStatus expected = HttpStatus.OK;
+        HttpStatus actual = pollCtrl.deletePoll(anyLong()).getStatusCode();
+
+        verify(pollRepo).deleteById(anyLong());
         assertEquals(expected, actual);
     }
 }

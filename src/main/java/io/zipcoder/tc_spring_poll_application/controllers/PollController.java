@@ -29,13 +29,13 @@ public class PollController {
         this.pollRepository = pollRepository;
     }
 
-    @RequestMapping(name = "/polls", method = RequestMethod.GET)
+    @RequestMapping(value = "/polls", method = RequestMethod.GET)
     public ResponseEntity<Iterable<Poll>> getAllPolls() {
         Iterable<Poll> allPolls = pollRepository.findAll();
         return new ResponseEntity<>(allPolls, HttpStatus.OK);
     }
 
-    @RequestMapping(name = "/polls", method = RequestMethod.POST)
+    @RequestMapping(value = "/polls", method = RequestMethod.POST)
     public ResponseEntity<Poll> createPoll(@RequestBody Poll poll) {
         Poll createdPoll = pollRepository.save(poll);
 
@@ -61,9 +61,24 @@ public class PollController {
         return new ResponseEntity<>(createdPoll, headers, HttpStatus.CREATED);
     }
 
-    @RequestMapping(name = "/polls/{pollId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/polls/{pollId}", method = RequestMethod.GET)
     public ResponseEntity<Poll> getPoll(@PathVariable Long pollId) {
         Optional<Poll> poll = pollRepository.findById(pollId);
         return new ResponseEntity<>(poll.orElse(new Poll()), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/polls/{pollId}", method = RequestMethod.PUT)
+    public ResponseEntity<Poll> updatePoll(@RequestBody Poll poll, @PathVariable Long pollId) {
+        //TODO: check ids
+        //if (pollId != poll.getId())
+        //return BAD_REQUEST
+
+        return new ResponseEntity<>(pollRepository.save(poll), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/polls/{pollId}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> deletePoll(@PathVariable Long pollId) {
+        pollRepository.deleteById(pollId);
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 }
