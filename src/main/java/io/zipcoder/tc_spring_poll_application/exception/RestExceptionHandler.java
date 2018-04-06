@@ -1,18 +1,15 @@
 package io.zipcoder.tc_spring_poll_application.exception;
 
-import io.zipcoder.tc_spring_poll_application.error.ErrorDetail;
-import io.zipcoder.tc_spring_poll_application.error.ValidationError;
+import io.zipcoder.tc_spring_poll_application.dtos.error.ErrorDetail;
+import io.zipcoder.tc_spring_poll_application.dtos.error.ValidationError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-import sun.tools.tree.FieldExpression;
 
 import javax.servlet.http.HttpServletRequest;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

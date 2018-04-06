@@ -1,4 +1,4 @@
-package io.zipcoder.tc_spring_poll_application.error;
+package io.zipcoder.tc_spring_poll_application.dtos.error;
 
 import java.util.List;
 import java.util.Map;
