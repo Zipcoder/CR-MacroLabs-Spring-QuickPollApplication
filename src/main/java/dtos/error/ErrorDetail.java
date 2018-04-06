@@ -12,7 +12,15 @@ public class ErrorDetail {
     private String detail;
     private long timeStamp;
     private String developerMessage;
+    public Map<String, List<ValidationError>> getErrors() {
+        return errors;
+    }
+
+    public ErrorDetail(){}
+
     private Map<String, List<ValidationError>> errors = new HashMap<String, List<ValidationError>>();
+
+
 
     public String getTitle() {
         return title;
@@ -53,4 +61,6 @@ public class ErrorDetail {
     public void setDeveloperMessage(String developerMessage) {
         this.developerMessage = developerMessage;
     }
+
+
 }
