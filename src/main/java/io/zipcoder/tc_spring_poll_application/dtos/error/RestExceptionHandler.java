@@ -1,7 +1,8 @@
-package io.zipcoder.tc_spring_poll_application.exception;
+package io.zipcoder.tc_spring_poll_application.dtos.error;
 
 import io.zipcoder.tc_spring_poll_application.dtos.error.ErrorDetail;
 import io.zipcoder.tc_spring_poll_application.dtos.error.ValidationError;
+import io.zipcoder.tc_spring_poll_application.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceResolvable;
