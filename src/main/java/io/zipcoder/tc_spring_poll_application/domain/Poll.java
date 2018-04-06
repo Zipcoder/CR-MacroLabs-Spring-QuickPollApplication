@@ -9,22 +9,22 @@ public class Poll {
         @Id
         @GeneratedValue
         @Column(name  = "POLL_ID")
-        long id;
+        private Long id;
 
         @Column(name = "QUESTION")
-        String question;
+        private String question;
 
 
         @OneToMany(cascade = CascadeType.ALL)
         @JoinColumn(name = "POLL_ID")
         @OrderBy
-        Set<Option> option;
+        private Set<Option> options;
 
     public long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -37,11 +37,11 @@ public class Poll {
     }
 
     public Set<Option> getOption() {
-        return option;
+        return options;
     }
 
     public void setOption(Set<Option> option) {
-        this.option = option;
+        this.options = option;
     }
 }
 

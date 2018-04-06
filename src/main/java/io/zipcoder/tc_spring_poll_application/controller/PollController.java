@@ -1,5 +1,6 @@
 package io.zipcoder.tc_spring_poll_application.controller;
 
+import io.zipcoder.tc_spring_poll_application.domain.Option;
 import io.zipcoder.tc_spring_poll_application.domain.Poll;
 import io.zipcoder.tc_spring_poll_application.repositories.PollRepository;
 import org.springframework.http.HttpHeaders;
@@ -34,7 +35,14 @@ public class PollController {
                 .buildAndExpand(poll.getId())
                 .toUri();
         responseHeaders.setLocation(newPollUri);
+
+//        for (Option option: poll.getOption()){
+//            System.out.println(option.toString());
+//        }
+
         return new ResponseEntity<>(null,responseHeaders, HttpStatus.CREATED);
+
+
     }
 
     @RequestMapping(value="/polls/{pollId}", method=RequestMethod.PUT)
@@ -48,6 +56,12 @@ public class PollController {
     public ResponseEntity<?> deletePoll(@PathVariable Long pollId) {
         pollRepository.delete(pollId);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @RequestMapping(value="/polls/{pollId}", method=RequestMethod.GET)
+    public ResponseEntity<?> getPoll(@PathVariable Long pollId) {
+        Poll p = pollRepository.findOne(pollId);
+        return new ResponseEntity<> (p, HttpStatus.OK);
     }
 
 }
