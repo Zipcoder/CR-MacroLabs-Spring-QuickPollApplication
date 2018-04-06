@@ -3,18 +3,27 @@ package io.zipcoder.tc_spring_poll_application.exception;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import dtos.error.ErrorDetail;
 import dtos.error.ValidationError;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
 public class RestExceptionHandler {
+
+    @Autowired
+    @Inject
+    private MessageSource messageSource;
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<?> handleResourceNotFoundException(ResourceNotFoundException rnfe, HttpServletRequest request) {
@@ -28,7 +37,8 @@ public class RestExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<?> handleValidationError(MethodArgumentNotValidException manve, HttpServletRequest request) {
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public @ResponseBody ErrorDetail handleValidationError(MethodArgumentNotValidException manve, HttpServletRequest request) {
         ErrorDetail errorDetail = new ErrorDetail();
         // Populate errorDetail instance
         errorDetail.setTimeStamp(new Date().getTime());
@@ -49,10 +59,10 @@ public class RestExceptionHandler {
             }
             ValidationError validationError = new ValidationError();
             validationError.setCode(fe.getCode());
-            validationError.setMessage(fe.getDefaultMessage());
+            validationError.setMessage(messageSource.getMessage(fe, null));
             validationErrorList.add(validationError);
         }
-        return new ResponseEntity<>(errorDetail, null, HttpStatus. BAD_REQUEST);
+        return errorDetail;
     }
 
 }
