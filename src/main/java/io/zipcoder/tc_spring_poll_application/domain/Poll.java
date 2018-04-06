@@ -25,6 +25,10 @@ public class Poll {
     @OrderBy
     private Set<Option> options;
 
+    public Poll() {
+        // -_-
+    }
+
     public Long getId() {
         return Id;
     }
