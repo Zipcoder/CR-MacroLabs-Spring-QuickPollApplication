@@ -33,7 +33,7 @@ public class PollController {
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(newPollUri);
         poll = pollRepository.save(poll);
-        return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
+        return new ResponseEntity<>(responseHeaders, HttpStatus.CREATED);
     }
 
     @RequestMapping(value="/polls/{pollId}", method=RequestMethod.GET)
