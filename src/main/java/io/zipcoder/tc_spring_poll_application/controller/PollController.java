@@ -5,10 +5,7 @@ import io.zipcoder.tc_spring_poll_application.repositories.PollRepository;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.inject.Inject;
@@ -38,6 +35,19 @@ public class PollController {
                 .toUri();
         responseHeaders.setLocation(newPollUri);
         return new ResponseEntity<>(null,responseHeaders, HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value="/polls/{pollId}", method=RequestMethod.PUT)
+    public ResponseEntity<?> updatePoll(@RequestBody Poll poll, @PathVariable Long pollId) {
+        // Save the entity
+        Poll p = pollRepository.save(poll);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @RequestMapping(value="/polls/{pollId}", method=RequestMethod.DELETE)
+    public ResponseEntity<?> deletePoll(@PathVariable Long pollId) {
+        pollRepository.delete(pollId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }
