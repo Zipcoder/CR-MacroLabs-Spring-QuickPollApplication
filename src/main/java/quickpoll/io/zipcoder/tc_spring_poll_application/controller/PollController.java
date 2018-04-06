@@ -1,5 +1,8 @@
 package quickpoll.io.zipcoder.tc_spring_poll_application.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.web.util.UriComponentsBuilder;
 import quickpoll.io.zipcoder.tc_spring_poll_application.domain.Poll;
 import quickpoll.io.zipcoder.tc_spring_poll_application.exception.ResourceNotFoundException;
 import quickpoll.io.zipcoder.tc_spring_poll_application.repositories.PollRepository;
@@ -8,16 +11,25 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import quickpoll.io.zipcoder.tc_spring_poll_application.service.PollService;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import javax.xml.ws.Service;
 import java.net.URI;
+import java.util.List;
 
 
 @RestController
 public class PollController {
    @Inject
     private PollRepository pollRepository;
+
+   @Inject
+   private PollService service;
+
+
 
    @RequestMapping(value="/polls", method = RequestMethod.GET)
    public ResponseEntity<Iterable<Poll>> getAllPolls() {
@@ -34,6 +46,18 @@ public class PollController {
        HttpHeaders header = new HttpHeaders();
        header.setLocation(newPollUri);
        return new ResponseEntity<>(header, HttpStatus.CREATED);
+   }
+
+   @RequestMapping(value = "/polls", params = {"page", "size"}, method = RequestMethod.GET)
+   @ResponseBody
+   public List<Poll> findPaginated(@RequestParam("page") int page, @RequestParam("size") int size, UriComponentsBuilder uriBuilder, HttpServletResponse response) {
+       Page<Poll> resultPage = service.findPaginated(page,size);
+       if(page> resultPage.getTotalPages()){
+           throw new ResourceNotFoundException();
+       }
+
+
+       return resultPage.getContent();
    }
 
    @RequestMapping(value="/polls/{pollId}", method = RequestMethod.GET)
