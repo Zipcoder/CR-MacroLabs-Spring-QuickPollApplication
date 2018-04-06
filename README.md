@@ -108,8 +108,10 @@
 * Create a `PollController` class in the `controller` sub package.
 	* `PollController` signature should be `annotated` with `@RestController`
 
-* `PollController` has a `pollRepository` instance variable of type `PollRepository`
-	* `pollRepository` should be `annotated` with `@Inject`
+* `PollController` has a `pollRepository` instance variable of type `PollRepository`  
+
+* Create a constructor that accepts a `PollRepository` argument and assigns its value to the `pollRepository` member variable.  
+	* Mark the constructor with the `@Autowired` annotation.
 
 
 ### Part 3.1.1 - Create `GET` request method
@@ -248,16 +250,20 @@ public ResponseEntity<?> deletePoll(@PathVariable Long pollId) {
     "question": "What's the best netflix original?",
     "options": [
         {
-            "id": 1
+            "id": 1,
+            "value": "Stranger Things"
         },
         {
-            "id": 2
+            "id": 2,
+            "value": "The Get Down"
         },
         {
-            "id": 3
+            "id": 3,
+            "value": "Black Mirror"
         },
         {
-            "id": 4
+            "id": 4,
+            "value": "Orange is the New Black"
         }
     ]
 }
@@ -273,8 +279,13 @@ public ResponseEntity<?> deletePoll(@PathVariable Long pollId) {
 ```java
 @RestController
 public class VoteController {
-    @Inject
+
     private VoteRepository voteRepository;
+    
+    @Autowired
+    public VoteController(VoteRepository voteRepository) {
+    	this.voteRepository = voteRepository;
+    }
 
     @RequestMapping(value = "/polls/{pollId}/votes", method = RequestMethod.POST)
     public ResponseEntity<?> createVote(@PathVariable Long pollId, @RequestBody Vote
@@ -414,8 +425,13 @@ public class VoteResult {
 ```java
 @RestController
 public class ComputeResultController {
-    @Inject
+    
     private VoteRepository voteRepository;
+    
+    @Autowired
+    public ComputeResultController(VoteRepository voteRepository) {
+    	this.voteRepository = voteRepository;
+    }
 
     @RequestMapping(value = "/computeresult", method = RequestMethod.GET)
     public ResponseEntity<?> computeResult(@RequestParam Long pollId) {
