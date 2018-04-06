@@ -15,8 +15,12 @@ import java.util.Map;
 
 @RestController
 public class ComputeResultController {
+    private final VoteRepository voteRepository;
+
     @Inject
-    private VoteRepository voteRepository;
+    public ComputeResultController(VoteRepository voteRepository) {
+        this.voteRepository = voteRepository;
+    }
 
     @RequestMapping(value = "/computeresult", method = RequestMethod.GET)
     public ResponseEntity<?> computeResult(@RequestParam Long pollId) {
@@ -39,7 +43,6 @@ public class ComputeResultController {
 
         voteResult.setTotalVotes(totalVotes);
         voteResult.setResults(tempMap.values());
-        //TODO: Implement algorithm to count votes
         return new ResponseEntity<VoteResult>(voteResult, HttpStatus.OK);
     }
 }

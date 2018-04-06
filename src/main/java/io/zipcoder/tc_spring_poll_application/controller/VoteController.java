@@ -13,8 +13,12 @@ import javax.inject.Inject;
 @RestController
 public class VoteController {
 
+    private final VoteRepository voteRepository;
+
     @Inject
-    private VoteRepository voteRepository;
+    public VoteController(VoteRepository voteRepository) {
+        this.voteRepository = voteRepository;
+    }
 
     @RequestMapping(value = "/polls/{pollId}/votes", method = RequestMethod.POST)
     public ResponseEntity<?> createVote(@PathVariable Long pollId, @RequestBody Vote

@@ -10,7 +10,9 @@ public class ErrorDetail {
     private String detail;
     private long timeStamp;
     private String developerMessage;
-    private Map<String, List<ValidationError>> errors = new HashMap<String, List<ValidationError>>();
+    private Map<String, List<ValidationError>> errors = new HashMap<>();
+
+
 
     public String getTitle() {
         return title;
