@@ -1,6 +1,8 @@
 package io.zipcoder.tc_spring_poll_application.controller;
 
+import io.zipcoder.tc_spring_poll_application.domain.Option;
 import io.zipcoder.tc_spring_poll_application.domain.Poll;
+import io.zipcoder.tc_spring_poll_application.exception.ResourceNotFoundException;
 import io.zipcoder.tc_spring_poll_application.repositories.PollRepository;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -32,27 +34,40 @@ public class PollController {
                 .toUri();
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(newPollUri);
+        for (Option option:poll.getOptions()) {
+            System.out.println(option.toString());
+        }
         poll = pollRepository.save(poll);
-        return new ResponseEntity<>(responseHeaders, HttpStatus.CREATED);
+        return new ResponseEntity<>(poll, responseHeaders, HttpStatus.CREATED);
     }
 
     @RequestMapping(value="/polls/{pollId}", method=RequestMethod.GET)
     public ResponseEntity<?> getPoll(@PathVariable Long pollId) {
+        verifyPoll(pollId);
         Poll p = pollRepository.findOne(pollId);
         return new ResponseEntity<> (p, HttpStatus.OK);
     }
 
     @RequestMapping(value="/polls/{pollId}", method=RequestMethod.PUT)
     public ResponseEntity<?> updatePoll(@RequestBody Poll poll, @PathVariable Long pollId) {
+        verifyPoll(pollId);
         // Save the entity
         Poll p = pollRepository.save(poll);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(p, HttpStatus.OK);
     }
 
     @RequestMapping(value="/polls/{pollId}", method=RequestMethod.DELETE)
     public ResponseEntity<?> deletePoll(@PathVariable Long pollId) {
+        verifyPoll(pollId);
         pollRepository.delete(pollId);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    public void verifyPoll(Long pollid){
+        Poll poll = pollRepository.findOne(pollid);
+        if (poll == null){
+            throw new ResourceNotFoundException("Unable to verify poll");
+        }
     }
 
 }
