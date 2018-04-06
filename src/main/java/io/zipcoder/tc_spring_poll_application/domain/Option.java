@@ -15,6 +15,9 @@ public class Option {
     @Column(name = "OPTION_VALUE")
     private String value;
 
+    @Column(name = "POLL_ID")
+    private Long pollId;
+
     public Long getId() {
         return id;
     }
@@ -29,5 +32,13 @@ public class Option {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public Long getPollId() {
+        return pollId;
+    }
+
+    public void setPollId(Long pollId) {
+        this.pollId = pollId;
     }
 }
