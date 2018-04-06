@@ -2,6 +2,8 @@ package io.zipcoder.tc_spring_poll_application.controller;
 
 import io.zipcoder.tc_spring_poll_application.domain.Vote;
 import io.zipcoder.tc_spring_poll_application.repositories.VoteRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +28,16 @@ public class VoteController {
                     fromCurrentRequest().path("/{id}").buildAndExpand(vote.getId()).toUri());
             return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
         }
+
+
+    public interface VoteRepository extends CrudRepository<Vote, Long> {
+        @Query(value = "SELECT v.* " +
+                "FROM Option o, Vote v " +
+                "WHERE o.POLL_ID = ?1 " +
+                "AND v.OPTION_ID = o.OPTION_ID", nativeQuery = true)
+        public Iterable<Vote> findVotesByPoll(Long pollId);
     }
+
+}
 
 
