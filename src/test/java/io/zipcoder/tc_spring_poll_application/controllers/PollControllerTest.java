@@ -8,14 +8,18 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * project: spring-demo
@@ -37,7 +41,16 @@ public class PollControllerTest {
     public void setup() {
         MockitoAnnotations.initMocks(this);
 
-        Mockito.when(pollRepo.findAll()).thenReturn(polls);
+        // GET all polls
+        when(pollRepo.findAll()).thenReturn(polls);
+
+        //POST create poll
+        when(pollRepo.save(any(Poll.class))).thenAnswer(inv -> inv.getArgument(0));
+
+//        would be nice...
+//        when(pollRepo::save)
+//                .onSuccess(HttpStatus.CREATED)
+//                .onFail(HttpStatus.BAD_REQUEST);
     }
 
     @Test
@@ -58,5 +71,16 @@ public class PollControllerTest {
 
         verify(pollRepo).findAll();
         assertEquals(expected, actual);
+    }
+
+    @Test
+    public void createPollSavesPoll() {
+        Poll expected = new Poll();
+        expected.setId(1L);
+
+        Poll actual = pollCtrl.createPoll(expected).getBody();
+
+        verify(pollRepo).save(any(Poll.class));
+        assertEquals(expected.getId(), actual.getId());
     }
 }

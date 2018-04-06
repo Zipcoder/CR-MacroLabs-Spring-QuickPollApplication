@@ -5,6 +5,7 @@ import io.zipcoder.tc_spring_poll_application.repositories.PollRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,5 +32,10 @@ public class PollController {
         return new ResponseEntity<>(allPolls, HttpStatus.OK);
     }
 
+    @RequestMapping(name = "/polls", method = RequestMethod.POST)
+    public ResponseEntity<Poll> createPoll(@RequestBody Poll poll) {
+        Poll responseBody = pollRepository.save(poll);
 
+        return new ResponseEntity<>(responseBody, HttpStatus.CREATED);
+    }
 }
