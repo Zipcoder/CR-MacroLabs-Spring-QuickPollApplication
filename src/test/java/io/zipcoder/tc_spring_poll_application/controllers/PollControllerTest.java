@@ -43,7 +43,6 @@ public class PollControllerTest {
     private PollRepository pollRepo;
 
     private List<Poll> polls = new ArrayList<>();
-    private MockMvc mockMvc;
 
     @Before
     public void setup() {
