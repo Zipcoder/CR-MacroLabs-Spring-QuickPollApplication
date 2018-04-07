@@ -30,7 +30,6 @@ public class VoteController {
     public ResponseEntity<Vote> createVote(@PathVariable Long pollId, @RequestBody Vote vote) {
         vote = voteRepository.save(vote);
 
-        //
         URI newVoteUri;
         try {
             newVoteUri = ServletUriComponentsBuilder
@@ -47,10 +46,19 @@ public class VoteController {
                     .toUri();
         }
 
-        //
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(newVoteUri);
 
         return new ResponseEntity<>(vote, responseHeaders, HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value="/polls/{pollId}/votes", method=RequestMethod.GET)
+    public ResponseEntity<Iterable<Vote>> getVotes() {
+        return new ResponseEntity<>(voteRepository.findAll(), HttpStatus.OK);
+    }
+
+    @RequestMapping(value="/polls/{pollId}/votes/", method=RequestMethod.GET)
+    public ResponseEntity<Iterable<Vote>> getVotesForPoll(@PathVariable Long pollId) {
+        return new ResponseEntity<>(voteRepository.findVotesByPoll(pollId), HttpStatus.OK);
     }
 }

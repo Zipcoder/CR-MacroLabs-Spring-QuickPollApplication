@@ -7,11 +7,16 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
+
+import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.mock;
 
 /**
  * project: spring-demo
@@ -33,6 +38,8 @@ public class VoteControllerTest {
 
         //create vote
         when(voteRepo.save(any(Vote.class))).thenAnswer(inv -> inv.getArgument(0));
+        when(voteRepo.findAll()).thenReturn((Iterable<Vote>)mock(List.class));
+        when(voteRepo.findVotesByPoll(anyLong())).thenReturn((Iterable<Vote>)mock(List.class));
     }
 
     @Test
@@ -44,6 +51,24 @@ public class VoteControllerTest {
         long actual = voteCtrl.createVote(1L, v).getBody().getId();
 
         verify(voteRepo).save(any(Vote.class));
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void getVotesByPoll() {
+        HttpStatus expected = HttpStatus.OK;
+        HttpStatus actual = voteCtrl.getVotesForPoll(anyLong()).getStatusCode();
+
+        verify(voteRepo).findVotesByPoll(anyLong());
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void getAllVotes() {
+        HttpStatus expected = HttpStatus.OK;
+        HttpStatus actual = voteCtrl.getVotes().getStatusCode();
+
+        verify(voteRepo).findAll();
         assertEquals(expected, actual);
     }
 }
