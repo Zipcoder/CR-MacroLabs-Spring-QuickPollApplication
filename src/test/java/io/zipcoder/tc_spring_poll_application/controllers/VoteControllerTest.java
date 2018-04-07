@@ -14,9 +14,7 @@ import java.util.List;
 import static junit.framework.TestCase.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 /**
  * project: spring-demo
@@ -38,8 +36,8 @@ public class VoteControllerTest {
 
         //create vote
         when(voteRepo.save(any(Vote.class))).thenAnswer(inv -> inv.getArgument(0));
-        when(voteRepo.findAll()).thenReturn((Iterable<Vote>)mock(List.class));
-        when(voteRepo.findVotesByPoll(anyLong())).thenReturn((Iterable<Vote>)mock(List.class));
+        when(voteRepo.findAll()).thenReturn((Iterable<Vote>) mock(List.class));
+        when(voteRepo.findVotesByPoll(anyLong())).thenReturn((Iterable<Vote>) mock(List.class));
     }
 
     @Test

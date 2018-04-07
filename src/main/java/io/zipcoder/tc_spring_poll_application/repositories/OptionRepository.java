@@ -9,5 +9,5 @@ import org.springframework.data.repository.CrudRepository;
  * author: https://github.com/vvmk
  * date: 4/5/18
  */
-public interface OptionRepository extends CrudRepository<Option, Long>{
+public interface OptionRepository extends CrudRepository<Option, Long> {
 }

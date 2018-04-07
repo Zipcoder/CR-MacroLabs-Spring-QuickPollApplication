@@ -1,9 +1,9 @@
 package io.zipcoder.tc_spring_poll_application.controllers;
 
-import io.zipcoder.tc_spring_poll_application.domain.Option;
 import io.zipcoder.tc_spring_poll_application.domain.Vote;
 import io.zipcoder.tc_spring_poll_application.dtos.VoteResult;
 import io.zipcoder.tc_spring_poll_application.repositories.VoteRepository;
+import io.zipcoder.tc_spring_poll_application.utils.ResultCalculator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,12 +38,14 @@ public class ComputeResultController {
         return new ResponseEntity<>(voteResult, HttpStatus.OK);
     }
 
-    protected VoteResult computeResults(Iterable<Vote> votes) {
+    private VoteResult computeResults(Iterable<Vote> votes) {
         Iterator<Vote> voterator = votes.iterator();
-        VoteResult result = new VoteResult();
-        while(voterator.hasNext()) {
+
+        ResultCalculator rc = new ResultCalculator();
+        while (voterator.hasNext()) {
             Vote v = voterator.next();
+            rc.add(v.getOption());
         }
-        return result;
+        return rc.calculate();
     }
 }

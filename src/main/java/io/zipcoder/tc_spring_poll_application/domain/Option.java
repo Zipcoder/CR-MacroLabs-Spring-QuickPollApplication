@@ -16,10 +16,10 @@ public class Option {
 
     @Id
     @GeneratedValue
-    @Column(name="OPTION_ID")
+    @Column(name = "OPTION_ID")
     private Long Id;
 
-    @Column(name="OPTION_VALUE")
+    @Column(name = "OPTION_VALUE")
     private String value;
 
     public Option() {
