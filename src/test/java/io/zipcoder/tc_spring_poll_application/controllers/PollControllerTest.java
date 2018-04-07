@@ -38,6 +38,8 @@ public class PollControllerTest {
     private PollRepository pollRepo;
 
     private List<Poll> polls = new ArrayList<>();
+    private Long exists = 10L;
+    private Long dne = 999L;
 
     @Before
     public void setup() {
@@ -114,12 +116,20 @@ public class PollControllerTest {
     }
 
     @Test
-    public void updatesPoll() {
+    public void updatesPollExists() {
         HttpStatus expected = HttpStatus.OK;
-        HttpStatus actual = pollCtrl.updatePoll(mock(Poll.class), anyLong()).getStatusCode();
+        HttpStatus actual = pollCtrl.updatePoll(mock(Poll.class), exists).getStatusCode();
 
         verify(pollRepo).save(any(Poll.class));
         assertEquals(expected, actual);
+    }
+
+    @Test(expected = ResourceNotFoundException.class)
+    public void updatePollFails404() {
+        HttpStatus expected = HttpStatus.OK;
+        HttpStatus actual = pollCtrl.updatePoll(mock(Poll.class), dne).getStatusCode();
+
+        verify(pollRepo).save(any(Poll.class));
     }
 
     @Test
@@ -134,7 +144,6 @@ public class PollControllerTest {
     @Test
     public void testVerifyPoll() {
 
-        Long exists = 10L;
 
         try {
             pollCtrl.verifyPoll(exists);
@@ -145,6 +154,6 @@ public class PollControllerTest {
 
     @Test(expected = ResourceNotFoundException.class)
     public void testVerifyPollNotFound() {
-        pollCtrl.verifyPoll(999L);
+        pollCtrl.verifyPoll(dne);
     }
 }

@@ -70,10 +70,7 @@ public class PollController {
 
     @RequestMapping(value = "/polls/{pollId}", method = RequestMethod.PUT)
     public ResponseEntity<Poll> updatePoll(@RequestBody Poll poll, @PathVariable Long pollId) {
-        //TODO: check ids
-        //if (pollId != poll.getId())
-        //return BAD_REQUEST
-
+        verifyPoll(pollId);
         return new ResponseEntity<>(pollRepository.save(poll), HttpStatus.OK);
     }
 
