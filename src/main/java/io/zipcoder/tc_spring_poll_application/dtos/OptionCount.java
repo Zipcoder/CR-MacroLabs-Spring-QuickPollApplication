@@ -10,6 +10,11 @@ public class OptionCount {
     private Long optionId;
     private int count;
 
+    public OptionCount(Long optionId) {
+        this.optionId = optionId;
+        count = 0;
+    }
+
     public Long getOptionId() {
         return optionId;
     }
