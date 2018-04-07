@@ -1,0 +1,49 @@
+package io.zipcoder.tc_spring_poll_application.controllers;
+
+import io.zipcoder.tc_spring_poll_application.domain.Vote;
+import io.zipcoder.tc_spring_poll_application.repositories.VoteRepository;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import static junit.framework.TestCase.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+/**
+ * project: spring-demo
+ * package: io.zipcoder.tc_spring_poll_application.controllers
+ * author: https://github.com/vvmk
+ * date: 4/6/18
+ */
+public class VoteControllerTest {
+
+    @InjectMocks
+    private VoteController voteCtrl;
+
+    @Mock
+    private VoteRepository voteRepo;
+
+    @Before
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
+
+        //create vote
+        when(voteRepo.save(any(Vote.class))).thenAnswer(inv -> inv.getArgument(0));
+    }
+
+    @Test
+    public void createVote() {
+        Vote v = new Vote();
+        long expected = 1;
+        v.setId(expected);
+
+        long actual = voteCtrl.createVote(1L, v).getBody().getId();
+
+        verify(voteRepo).save(any(Vote.class));
+        assertEquals(expected, actual);
+    }
+}
