@@ -1,6 +1,7 @@
 package io.zipcoder.tc_spring_poll_application.controllers;
 
 import io.zipcoder.tc_spring_poll_application.domain.Poll;
+import io.zipcoder.tc_spring_poll_application.exception.ResourceNotFoundException;
 import io.zipcoder.tc_spring_poll_application.repositories.PollRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
+import static junit.framework.TestCase.fail;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -50,6 +52,9 @@ public class PollControllerTest {
         // POST create poll
         // PUT update poll
         when(pollRepo.save(any(Poll.class))).thenAnswer(inv -> inv.getArgument(0));
+
+        when(pollRepo.existsById(10L)).thenReturn(true);
+        when(pollRepo.existsById(999L)).thenReturn(false);
 
 //        when(pollRepo::save)
 //                .onSuccess(HttpStatus.CREATED)
@@ -124,5 +129,22 @@ public class PollControllerTest {
 
         verify(pollRepo).deleteById(anyLong());
         assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testVerifyPoll() {
+
+        Long exists = 10L;
+
+        try {
+            pollCtrl.verifyPoll(exists);
+        } catch (ResourceNotFoundException rnfe) {
+            fail();
+        }
+    }
+
+    @Test(expected = ResourceNotFoundException.class)
+    public void testVerifyPollNotFound() {
+        pollCtrl.verifyPoll(999L);
     }
 }
