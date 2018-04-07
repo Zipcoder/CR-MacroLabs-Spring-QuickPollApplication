@@ -1,5 +1,8 @@
 package io.zipcoder.tc_spring_poll_application.error;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * project: spring-demo
  * package: io.zipcoder.tc_spring_poll_application.error
@@ -12,6 +15,16 @@ public class ErrorDetail {
     String detail;
     long timestamp;
     String developerMessage;
+
+    public Map<String, List<ValidationError>> getErrors() {
+        return errors;
+    }
+
+    public void setErrors(Map<String, List<ValidationError>> errors) {
+        this.errors = errors;
+    }
+
+    Map<String, List<ValidationError>> errors;
 
     public String getTitle() {
         return title;
