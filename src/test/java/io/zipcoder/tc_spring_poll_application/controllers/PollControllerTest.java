@@ -143,8 +143,6 @@ public class PollControllerTest {
 
     @Test
     public void testVerifyPoll() {
-
-
         try {
             pollCtrl.verifyPoll(exists);
         } catch (ResourceNotFoundException rnfe) {
