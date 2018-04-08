@@ -1,6 +1,9 @@
 package io.zipcoder.tc_spring_poll_application.domain;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,11 +16,13 @@ public class Poll {
     private long id;
 
     @Column(name = "QUESTION")
+    @NotEmpty
     private String questions;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "POLL_ID")
     @OrderBy
+    @Size(min=2, max = 6)
     private Set<Option> options;
 
     public long getId() {
@@ -45,3 +50,9 @@ public class Poll {
     }
 }
 
+// In the Poll class:
+// options should be @Size(min=2, max = 6)
+//question should be @NotEmpty
+//To enforce these validations, add @Valid annotations to Poll objects in
+//RequestMapping-annotated controller methods
+// (there should be 2)...only found one check this!!!!!
