@@ -14,9 +14,9 @@ public class Poll {
     @Column(name = "QUESTION")
     private String question;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "POLL_ID")
-    @OrderBy
+    @OneToMany(cascade = CascadeType.ALL)// indicates that a Poll instance can contain zero or more Option instances. The CascadeType.All indicates that any database operations such as persist, remove, or merge on a Poll instance needs to be propagated to all related Option instances
+    @JoinColumn(name = "POLL_ID")// indicates this entity is the owner of the relationship. It has a key to the column with options
+    @OrderBy// orders by ASC default
     private Set<Option> options;
 
     public Long getId() {

@@ -9,24 +9,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.inject.Inject;
 import java.net.URI;
 
-@RestController
+@RestController// marks entity as a controller following REST specs
 public class PollController {
 
-    @Inject
     private PollRepository pollRepository;
 
     @Autowired //The @Autowired annotation allows you to skip configurations elsewhere of what to inject and just does it for you
-
     public PollController(PollRepository pollRepository){
         this.pollRepository = pollRepository;
     }
 
-    @RequestMapping(value="/polls", method= RequestMethod.GET)
+    @RequestMapping(value="/polls", method= RequestMethod.GET)//maps web requests to entities with the @RequestMapping
     public ResponseEntity<Iterable<Poll>> getAllPolls() {
-        Iterable<Poll> allPolls = pollRepository.findAll();
+        Iterable<Poll> allPolls = pollRepository.findAll(); // reads all the polls using poll repository
         return new ResponseEntity<>(allPolls, HttpStatus.OK);
     }
 
@@ -35,7 +32,7 @@ public class PollController {
         poll = pollRepository.save(poll);
         HttpHeaders newHeaders = new HttpHeaders();
 
-        URI newPollUri = ServletUriComponentsBuilder
+        URI newPollUri = ServletUriComponentsBuilder //allows the client to have a way to know the uri of the created poll
                 .fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(poll.getId())

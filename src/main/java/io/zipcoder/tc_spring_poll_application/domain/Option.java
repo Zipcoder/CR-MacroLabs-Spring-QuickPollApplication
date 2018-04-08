@@ -8,9 +8,9 @@ import javax.persistence.Id;
 @Entity // this means that a class can be mapped to a table. Just is a marker like Serializable
 public class Option {
 
-    @Id // specifies primary key of entity
+    @Id // specifies primary key of entity (primary key is a special column)
     @GeneratedValue // configures the way of increment of the specified column (field)
-    @Column(name = "OPTION_ID")// specifies mapped column for a persisitence property. Without this annotation the framework assumes the field's variable-name is the persistent property
+    @Column(name = "OPTION_ID")// specifies mapped column for a persistence property. Without this annotation the framework assumes the field's variable-name is the persistent property
     private Long id;
 
     @Column(name = "OPTION_VALUE")// specifies mapped column for persistence value

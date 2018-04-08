@@ -9,8 +9,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+
 @RestController
 public class VoteController {
+
     private VoteRepository voteRepository;
 
     @Autowired
@@ -36,6 +38,6 @@ public class VoteController {
 
     @RequestMapping(value="/polls/{pollId}/votes", method=RequestMethod.GET)
     public Iterable<Vote> getVote(@PathVariable Long pollId) {
-        return voteRepository.findById(pollId);
+        return voteRepository.findVotesByPoll(pollId);
     }
 }
