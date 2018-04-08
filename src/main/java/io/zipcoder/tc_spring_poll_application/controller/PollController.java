@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 
 @RestController// marks entity as a controller following REST specs
@@ -42,6 +43,7 @@ public class PollController {
         return new ResponseEntity<>(newHeaders, HttpStatus.CREATED);
     }
 
+    @Valid
     @RequestMapping(value="/polls/{pollId}", method=RequestMethod.GET)
     public ResponseEntity<?> getPoll(@PathVariable Long pollId) {
         verifyPoll(pollId);
@@ -49,6 +51,7 @@ public class PollController {
         return new ResponseEntity<> (p, HttpStatus.OK);
     }
 
+    @Valid
     @RequestMapping(value="/polls/{pollId}", method=RequestMethod.PUT)
     public ResponseEntity<?> updatePoll(@RequestBody Poll poll, @PathVariable Long pollId) {
         // Save the entity
@@ -66,8 +69,8 @@ public class PollController {
 
     public void verifyPoll(Long pollId){
         Poll poll = pollRepository.findOne(pollId);
-        if(pollId == null){
-            throw new ResourceNotFoundException("The given poll id" + pollId + "does not exist!");
+        if(poll == null){
+            throw new ResourceNotFoundException("The given poll id " + pollId + " does not exist!");
         }
     }
 
