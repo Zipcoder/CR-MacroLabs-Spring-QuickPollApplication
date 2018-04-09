@@ -29,14 +29,20 @@ public class VoteController {
             return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
         }
 
-
-    public interface VoteRepository extends CrudRepository<Vote, Long> {
-        @Query(value = "SELECT v.* " +
-                "FROM Option o, Vote v " +
-                "WHERE o.POLL_ID = ?1 " +
-                "AND v.OPTION_ID = o.OPTION_ID", nativeQuery = true)
-        public Iterable<Vote> findVotesByPoll(Long pollId);
+    @RequestMapping(value="/polls/votes", method=RequestMethod.GET)
+    public Iterable<Vote> getAllVotes() {
+        return voteRepository.findAll();
     }
+
+    @RequestMapping(value="/polls/{pollId}/votes", method=RequestMethod.GET)
+    public Iterable<Vote> getAllVotes(@PathVariable Long pollId) {
+        return voteRepository.findVotesByPoll(pollId);
+    }
+
+
+
+
+
 
 }
 
