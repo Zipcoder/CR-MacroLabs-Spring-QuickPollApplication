@@ -1,19 +1,19 @@
 package io.zipcoder.tc_spring_poll_application.exception;
-import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.http.HttpStatus;
-import io.zipcoder.tc_spring_poll_application.error.ErrorDetail;
+import org.springframework.http.*;
+import io.zipcoder.tc_spring_poll_application.error.*;
 import java.util.*;
 import java.io.*;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.validation.FieldError;
+import org.springframework.context.MessageSource;
 import org.springframework.validation.*;
-import io.zipcoder.tc_spring_poll_application.error.ValidationError;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @ControllerAdvice
 public class RestExceptionHandler {
+    @Autowired
+    private MessageSource messageSource;
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<?> handleResourceNotFoundException(ResourceNotFoundException rnfe, HttpServletRequest request) {

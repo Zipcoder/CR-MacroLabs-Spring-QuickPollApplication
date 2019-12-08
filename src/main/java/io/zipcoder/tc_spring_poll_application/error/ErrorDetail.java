@@ -50,7 +50,12 @@ public class ErrorDetail {
         this.developerMessage = developerMessage;
     }
 
-    public CookieHandler getErrors() {
-        return null;
+
+    public Map<String, List<ValidationError>> getErrors() {
+        return errors;
+    }
+
+    public void setErrors(Map<String, List<ValidationError>> errors) {
+        this.errors = errors;
     }
 }

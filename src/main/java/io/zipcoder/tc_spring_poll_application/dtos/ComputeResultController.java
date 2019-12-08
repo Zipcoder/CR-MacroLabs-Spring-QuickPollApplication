@@ -1,4 +1,4 @@
-package dtos;
+package io.zipcoder.tc_spring_poll_application.dtos;
 import io.zipcoder.tc_spring_poll_application.repositories.VoteRepository;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
