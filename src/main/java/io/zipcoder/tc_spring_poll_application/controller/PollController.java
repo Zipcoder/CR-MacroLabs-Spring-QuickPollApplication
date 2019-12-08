@@ -5,8 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import io.zipcoder.tc_spring_poll_application.repositories.PollRepository;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.*;
+import javax.validation.Valid;
 import java.net.URI;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import io.zipcoder.tc_spring_poll_application.exception.ResourceNotFoundException;
 
 
 @RestController
@@ -26,7 +28,7 @@ public class PollController {
     }
 
     @RequestMapping(value="/polls", method=RequestMethod.POST)
-    public ResponseEntity<?> createPoll(@RequestBody Poll poll) {
+    public ResponseEntity<?> createPoll(@RequestBody @Valid Poll poll) {
         poll = pollRepository.save(poll);
         URI newPollUri = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{id}")
@@ -43,7 +45,7 @@ public class PollController {
     }
 
     @RequestMapping(value="/polls/{pollId}", method=RequestMethod.PUT)
-    public ResponseEntity<?> updatePoll(@RequestBody Poll poll, @PathVariable Long pollId) {
+    public ResponseEntity<?> updatePoll(@RequestBody @Valid Poll poll, @PathVariable Long pollId) {
         // Save the entity
         Poll p = pollRepository.save(poll);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -55,18 +57,13 @@ public class PollController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    public void verifyPoll(){
-
+    public void verifyPoll(Long pollId){
+        if(!pollRepository.exists(pollId)) {
+            throw new ResourceNotFoundException();
+        }
     }
 
-/* Create a void method in PollController called verifyPoll that checks if a specific
- poll id exists and throws a ResourceNotFoundException if not. Use this in any method
-  that searches for or updates an existing poll (eg: Get, Put, and Delete methods).
 
-Note: This means that trying to submit a PUT request for a resource that doesn't exist
-will not implicitly create it; it should throw a 404 instead.
-
-*/
 
 
 
