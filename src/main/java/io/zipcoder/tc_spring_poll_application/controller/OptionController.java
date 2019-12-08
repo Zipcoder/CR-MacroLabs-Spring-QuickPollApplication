@@ -42,6 +42,29 @@ public class OptionController {
         return new ResponseEntity<>(header, HttpStatus.CREATED);
     }
 
+    @GetMapping("/polls/{pollId}")
+    public ResponseEntity<?> getPoll(@PathVariable Long pollId) {
+        if (pollRepository.findById(pollId).isPresent()) {
+            Poll p = pollRepository.findById(pollId).get();
+            return new ResponseEntity<>(p, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @PutMapping("/polls/{pollId}")
+    public ResponseEntity<?> updatePoll(@RequestBody Poll poll, @PathVariable Long pollId) {
+        // Save the entity
+        Poll p = pollRepository.save(poll);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/polls/{pollId}")
+    public ResponseEntity<?> deletePoll(@PathVariable Long pollId) {
+        pollRepository.deleteById(pollId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
 
 
 
