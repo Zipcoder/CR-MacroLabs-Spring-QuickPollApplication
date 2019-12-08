@@ -7,10 +7,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
@@ -35,5 +32,10 @@ public class VoteController {
                 .path("/{id}").
                 buildAndExpand(vote.getId()).toUri());
         return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/polls/{pollId}/votes")
+    public ResponseEntity<Iterable<Vote>> getVote(@PathVariable Long pollId) {
+        return new ResponseEntity<>(voteRepository.findVotesByPoll(pollId), HttpStatus.OK);
     }
 }
