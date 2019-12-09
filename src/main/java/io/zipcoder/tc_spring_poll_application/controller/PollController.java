@@ -31,7 +31,7 @@ public class PollController {
 
 
     @RequestMapping(value="/polls", method=RequestMethod.POST)
-    public ResponseEntity<?> createPoll(@RequestBody Poll poll) {
+    public ResponseEntity<Poll> createPoll(@RequestBody Poll poll) {
 
         URI newPollUri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -43,7 +43,7 @@ public class PollController {
         httpHeaders.setLocation(newPollUri);
 
         poll = pollRepository.save(poll);
-        return new ResponseEntity<>(null, HttpStatus.CREATED);
+        return new ResponseEntity<Poll>(httpHeaders, HttpStatus.CREATED);
     }
 
     @RequestMapping(value="/polls/{pollId}", method=RequestMethod.GET)
@@ -51,6 +51,14 @@ public class PollController {
         Poll p = pollRepository.findOne(pollId);
         return new ResponseEntity<> (p, HttpStatus.OK);
     }
+
+    @RequestMapping(value="/polls/{pollId}", method=RequestMethod.PUT)
+    public ResponseEntity<?> updatePoll(@RequestBody Poll poll, @PathVariable Long pollId) {
+        // Save the entity
+        Poll p = pollRepository.save(poll);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
 
 }
