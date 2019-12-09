@@ -8,7 +8,7 @@ public class Poll {
 
     @Id
     @GeneratedValue
-    @Column(name = "OPTION_ID")
+    @Column(name = "POLL_ID")
     private Long id;
 
     @Column(name = "QUESTION")
@@ -18,12 +18,6 @@ public class Poll {
     @JoinColumn(name = "POLL_ID")
     @OrderBy
     private Set<Option> options;
-
-    public Poll(){}
-
-    public Poll(String question){
-        this.question = question;
-    }
 
     public Long getId(){
         return id;
