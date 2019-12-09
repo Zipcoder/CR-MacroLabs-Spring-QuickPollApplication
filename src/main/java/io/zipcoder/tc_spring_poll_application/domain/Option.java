@@ -6,13 +6,12 @@ import javax.persistence.*;
 public class Option {
 
     @Id
-    @GeneratedValue (strategy = GenerationType.AUTO)
-    @Column (name = "OPTION_ID")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "OPTION_ID")
     private Long id;
 
-    @Column (name = "OPTION_VALUE")
+    @Column(name = "OPTION_VALUE")
     private String value;
-
 
     public Long getId() {
         return id;
