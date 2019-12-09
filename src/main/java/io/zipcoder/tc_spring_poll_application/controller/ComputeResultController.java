@@ -1,7 +1,12 @@
 package io.zipcoder.tc_spring_poll_application.controller;
 
+import dtos.OptionCount;
 import dtos.VoteResult;
+import io.zipcoder.tc_spring_poll_application.domain.Option;
+import io.zipcoder.tc_spring_poll_application.domain.Poll;
 import io.zipcoder.tc_spring_poll_application.domain.Vote;
+import io.zipcoder.tc_spring_poll_application.repositories.OptionRepository;
+import io.zipcoder.tc_spring_poll_application.repositories.PollRepository;
 import io.zipcoder.tc_spring_poll_application.repositories.VoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,9 +16,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
 @RestController
 public class ComputeResultController {
     private VoteRepository voteRepository;
+    private PollRepository pollRepository;
+    private OptionRepository optionRepository;
+    private List <OptionCount> optionsCountList = new ArrayList<>();
+    private Map<Long, Long> optionCounts;
+    private Iterable<Vote> allVotes;
+
 
     @Autowired
     public ComputeResultController(VoteRepository voteRepository) {
@@ -22,10 +39,32 @@ public class ComputeResultController {
 
     @GetMapping("/computeresult")
     public ResponseEntity<?> computeResult(@RequestParam Long pollId) {
-        VoteResult voteResult = new VoteResult();
-        Iterable<Vote> allVotes = voteRepository.findVotesByPoll(pollId);
+        allVotes = voteRepository.findVotesByPoll(pollId);
+//        for(Vote v : allVotes){
+//            ;
+//        }
 
-        //TODO: Implement algorithm to count votes
-        return new ResponseEntity<VoteResult>(voteResult, HttpStatus.OK);
-    }
+        optionCounts= StreamSupport.stream(allVotes.spliterator(), false)
+                .filter(vote -> vote.getOption())
+                .collect(Collectors.groupingBy(Option::getId ), Collectors.counting()));
+        ArrayList<Long> keys = new ArrayList<Long>(optionCounts.keySet());
+        for (int i = 0; i < optionCounts.size(); i++) {
+             optionsCountList.add(new OptionCount(keys.get(i), optionCounts.get(keys.get(i)).intValue()));
+        }
+
+        VoteResult voteResult = new VoteResult(allVotes, );
+            //TODO: Implement algorithm to count votes
+            return new ResponseEntity<VoteResult>(voteResult, HttpStatus.OK);
+        }
+
+    public Integer countAllVotes (Iterable<Vote> allVotes){
+        Long count = StreamSupport.stream(allVotes.spliterator(), false).count();
+        return count.intValue();
+        }
+
+        }
+
+
+
+
 }

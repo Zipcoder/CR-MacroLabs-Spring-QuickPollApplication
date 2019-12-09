@@ -20,5 +20,4 @@ public interface VoteRepository extends CrudRepository <Vote, Long> {
             "AND v.OPTION_ID = o.OPTION_ID", nativeQuery = true)
     public Iterable<Vote> findVotesByPoll(Long pollId);
 
-    public
 }
