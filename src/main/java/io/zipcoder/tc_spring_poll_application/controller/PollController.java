@@ -9,6 +9,8 @@ import javax.validation.Valid;
 import java.net.URI;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import io.zipcoder.tc_spring_poll_application.exception.ResourceNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 
 @RestController
@@ -22,8 +24,8 @@ public class PollController {
     }
 
     @RequestMapping(value = "/polls", method = RequestMethod.GET)
-    public ResponseEntity<Iterable<Poll>> getAllPolls() {
-        Iterable<Poll> allPolls = pollRepository.findAll();
+    public ResponseEntity<Iterable<Poll>> getAllPolls(Pageable P) {
+        Iterable<Poll> allPolls = pollRepository.findAll((Iterable<Long>) P);
         return new ResponseEntity<>(allPolls, HttpStatus.OK);
     }
 
