@@ -7,7 +7,7 @@ public class Option {
 
     @Id
     @GeneratedValue (strategy = GenerationType.AUTO)
-    @Column (name = "OPTION-ID")
+    @Column (name = "OPTION_ID")
     private Long id;
 
     @Column (name = "OPTION_VALUE")
