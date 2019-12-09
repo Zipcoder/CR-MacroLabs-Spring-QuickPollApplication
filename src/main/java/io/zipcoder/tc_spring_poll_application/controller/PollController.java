@@ -60,5 +60,11 @@ public class PollController {
     }
 
 
+    @RequestMapping(value="/polls/{pollId}", method=RequestMethod.DELETE)
+    public ResponseEntity<?> deletePoll(@PathVariable Long pollId) {
+        pollRepository.delete(pollId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
 }
