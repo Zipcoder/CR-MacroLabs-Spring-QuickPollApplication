@@ -40,19 +40,15 @@ public class ComputeResultController {
     @GetMapping("/computeresult")
     public ResponseEntity<?> computeResult(@RequestParam Long pollId) {
         allVotes = voteRepository.findVotesByPoll(pollId);
-//        for(Vote v : allVotes){
-//            ;
-//        }
 
         optionCounts= StreamSupport.stream(allVotes.spliterator(), false)
-                .filter(vote -> vote.getOption())
-                .collect(Collectors.groupingBy(Option::getId ), Collectors.counting()));
+                .collect(Collectors.groupingBy(v -> v.getOption().getId(), Collectors.counting()));
         ArrayList<Long> keys = new ArrayList<Long>(optionCounts.keySet());
         for (int i = 0; i < optionCounts.size(); i++) {
              optionsCountList.add(new OptionCount(keys.get(i), optionCounts.get(keys.get(i)).intValue()));
         }
 
-        VoteResult voteResult = new VoteResult(allVotes, );
+        VoteResult voteResult = new VoteResult(countAllVotes(allVotes), optionsCountList);
             //TODO: Implement algorithm to count votes
             return new ResponseEntity<VoteResult>(voteResult, HttpStatus.OK);
         }
@@ -62,9 +58,9 @@ public class ComputeResultController {
         return count.intValue();
         }
 
-        }
-
-
-
-
 }
+
+
+
+
+
