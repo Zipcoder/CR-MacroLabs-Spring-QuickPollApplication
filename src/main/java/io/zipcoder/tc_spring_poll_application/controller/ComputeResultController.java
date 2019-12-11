@@ -25,12 +25,6 @@ import java.util.stream.StreamSupport;
 @RestController
 public class ComputeResultController {
     private VoteRepository voteRepository;
-    private PollRepository pollRepository;
-    private OptionRepository optionRepository;
-    private List <OptionCount> optionsCountList = new ArrayList<>();
-    private Map<Long, Long> optionCounts;
-    private Iterable<Vote> allVotes;
-
 
     @Autowired
     public ComputeResultController(VoteRepository voteRepository) {
@@ -39,8 +33,11 @@ public class ComputeResultController {
 
     @GetMapping("/computeresult")
     public ResponseEntity<?> computeResult(@RequestParam Long pollId) {
-        allVotes = voteRepository.findVotesByPoll(pollId);
+        List <OptionCount> optionsCountList = new ArrayList<>();
+        Map<Long, Long> optionCounts;
+        Iterable<Vote> allVotes;
 
+        allVotes = voteRepository.findVotesByPoll(pollId);
         optionCounts= StreamSupport.stream(allVotes.spliterator(), false)
                 .collect(Collectors.groupingBy(v -> v.getOption().getId(), Collectors.counting()));
         ArrayList<Long> keys = new ArrayList<Long>(optionCounts.keySet());
