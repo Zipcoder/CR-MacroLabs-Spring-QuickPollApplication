@@ -57,4 +57,8 @@ public class PollController {
         pollRepository.delete(pollId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    public void verifyPoll(Long pollId){
+        if (getAllPolls(pollId))
+    }
 }
