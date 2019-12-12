@@ -1,4 +1,4 @@
-package dtos;
+package dto;
 
 public class OptionCount {
         private Long optionId;

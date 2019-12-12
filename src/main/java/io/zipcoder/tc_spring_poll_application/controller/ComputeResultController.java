@@ -1,6 +1,6 @@
 package io.zipcoder.tc_spring_poll_application.controller;
 
-import dtos.VoteResult;
+import dto.VoteResult;
 import io.zipcoder.tc_spring_poll_application.domain.Vote;
 import io.zipcoder.tc_spring_poll_application.repositories.VoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
