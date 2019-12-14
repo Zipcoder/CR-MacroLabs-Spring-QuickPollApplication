@@ -14,14 +14,13 @@ public class Poll {
     @GeneratedValue
     @Column(name = "POLL_ID")
 private Long id;
+    @NotEmpty
     @Column(name = "QUESTION")
     private String question;
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "POLL_ID")
     @OrderBy
     @Size(min=2, max = 6)
-    @NotEmpty
-
     Set<Option> options;
 
     public Long getId() {
